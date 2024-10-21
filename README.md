@@ -1,6 +1,6 @@
 # Introduction about this repo
 
-There are two services: food_web_service and food_printer_service. Also a SQLite database and a NATS message queue are included.
+There are two services: food_web_service and food_printer_service. Also a SQLite database and a NATS message queue are involved.
 ## food_web_service
 food_web_service has 2 endpoints: POST to produce food (which has 2 fields: name and number) and GET to consume the latest food which has not been consumed.
 
@@ -52,20 +52,20 @@ The following cmds can be executed to operate food_web_service:
 ![alt text](<print_data.png>)
 
 # Some Tips about the issues ever met 
-1. when to implement SQLite database, should use no cgo package, like `"github.com/glebarez/sqlite"`. Do not use cgo package, like "github.com/mattn/go-sqlite3", otherwise, you will get the following message and could also get the same message and still could not run the service even after with execution 'export CGO_ENABLED=1':
+1. When to implement SQLite database, should use no cgo package, like `"github.com/glebarez/sqlite"`. Do not use cgo package, like "github.com/mattn/go-sqlite3", otherwise, you will get the following message and could also get the same message and still could not run the service even after with execution 'export CGO_ENABLED=1':
 `please export CGO_ENABLED=1
 Because: Binary was compiled with 'CGO_ENABLED=0', sqlite3 requires cgo to work.`
 
-2. when to connect to SQLite database, make sure to have the right format of the database file, like `food.db`, do not use `food.sqlite`, otherwise you may be able to connect to the database but perhaps read not correctly from the database. 
+2. When to connect to SQLite database, make sure to have the right format of the database file, like `food.db`, do not use `food.sqlite`, otherwise you may be able to connect to the database but perhaps read not correctly from the database. 
 
-3. when to create a table if not exists in the SQLite database, found that command `sqlite3 /data/food.db < /data/init.sql` under `web-server` in the `compose.yaml` does not work well, so write a function named CreateTableFoodIfNotExists to realize it.
+3. When to create a table if not exists in the SQLite database, found that command `sqlite3 /data/food.db < /data/init.sql` under `web-server` in the `compose.yaml` does not work well, so write a function named CreateTableFoodIfNotExists to realize it.
 
-4. when to connect to NATS, make sure to set the environment `NATS_URI` in the corresponding services and use package `"github.com/nats-io/nats.go"` instead of "github.com/nats-io/nats" because some related messages just come out during building the services. 
+4. When to connect to NATS, make sure to set the environment `NATS_URI` in the corresponding services and use package `"github.com/nats-io/nats.go"` instead of "github.com/nats-io/nats" because some related messages just come out during building the services. 
 `github.com/nats-io/go-nats: github.com/nats-io/go-nats@v1.8.1: parsing go.mod:
 	module declares its path as: github.com/nats-io/nats.go
 	        but was required as: github.com/nats-io/go-nats`
 
-5. Make sure to set the correct value of parameters in the compose.yaml, then can you set up your services correctly.
+5. Make sure to set the correct value of parameters in the compose.yaml, only then can you set up your services correctly.
 
 
 # Note
