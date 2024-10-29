@@ -2,6 +2,8 @@ package main
 
 import (
 	msgqueue "food_web_service/msg_queue"
+	"log"
+	"time"
 
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
@@ -15,6 +17,14 @@ var (
 func main() {
 	// Echo instance
 	e := echo.New()
+	e.Use(middleware.TimeoutWithConfig(middleware.TimeoutConfig{
+		Skipper:      middleware.DefaultSkipper,
+		ErrorMessage: "custom timeout error message returns to client",
+		OnTimeoutRouteErrorHandler: func(err error, c echo.Context) {
+			log.Println(c.Path())
+		},
+		Timeout: 10 * time.Second,
+	}))
 
 	// Middleware
 	e.Use(middleware.Logger())

@@ -17,7 +17,7 @@ services:
       - 1323:1323
     volumes:
       - ./food_web_service/data:/data
-    command: sh -c "apk --no-cache add sqlite && cp /data/init-food.db /data/food.db && sqlite3 /data/food.db < /data/init.sql && tail -f /dev/null"
+    command: sh -c "apk --no-cache add sqlite && cp /data/init-food.db /data/food.db && sqlite3 /data/food.db"
     depends_on:
       nats:
         condition: service_started

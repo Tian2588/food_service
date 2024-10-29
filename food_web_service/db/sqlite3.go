@@ -41,6 +41,7 @@ func CreateTableFoodIfNotExists(db *sql.DB) error {
 	    number INTEGER NOT NULL,
 	    identifier TINYINT  DEFAULT 0
 	);
+	CREATE INDEX IF NOT EXISTS idx_food_identifier ON food (identifier);
 	`
 	_, err := db.Exec(query)
 	if err != nil {
